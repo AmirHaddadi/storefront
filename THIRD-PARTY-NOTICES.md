@@ -1,8 +1,10 @@
 # Third-Party Notices
 
-Storefront bundles the following third-party assets and libraries. Each is
-distributed under its own license; the MIT license of this project does not
-apply to them, and this project claims no ownership over them.
+The Storefront source code is released under the MIT License (see `LICENSE`).
+
+Storefront additionally bundles the third-party assets and libraries listed
+below. Each is distributed under its own license; the MIT license of this
+project does not apply to them, and this project claims no ownership over them.
 
 ## Bundled front-end assets
 
