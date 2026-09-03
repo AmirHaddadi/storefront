@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>صفحه پیدا نشد | Storefront</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#7c4dff">
+
+<link rel="icon" type="image/svg+xml" href="/assets/favicon/favicon.svg">
+
+<link rel="stylesheet" href="/assets/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+
+<script>
+  /* جلوگیری از پرش تم/رنگ در لحظه‌ی لود — همسو با منطق script.js اصلی سایت */
+  (function () {
+    var theme = localStorage.getItem('brand_theme_v1') === 'dark' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+    var preset = localStorage.getItem('brand_color_preset_v1');
+    if (preset) document.documentElement.setAttribute('data-color-preset', preset);
+  })();
+</script>
+
+<style>
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  .nf-blob {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: .45;
+    z-index: 0;
+    pointer-events: none;
+    animation: nf-float 14s ease-in-out infinite;
+  }
+  .nf-blob--a { width: 380px; height: 380px; top: -120px; right: -100px; background: var(--color-primary); }
+  .nf-blob--b { width: 320px; height: 320px; bottom: -100px; left: -90px; background: var(--color-accent); animation-delay: -6s; }
+  @keyframes nf-float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(20px, -24px) scale(1.08); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nf-blob { animation: none; }
+  }
+
+  .nf-card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 520px;
+    padding: 48px 36px 40px;
+    border-radius: var(--radius-lg);
+    text-align: center;
+  }
+
+  .nf-code {
+    font-size: clamp(64px, 14vw, 96px);
+    font-weight: 700;
+    line-height: 1;
+    margin: 0 0 6px;
+    background: var(--color-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: 2px;
+  }
+  .nf-title { font-size: 19px; font-weight: 700; color: var(--color-text); margin: 0 0 8px; }
+  .nf-desc { font-size: 14.5px; color: var(--color-text-muted); line-height: 1.9; margin: 0 0 28px; }
+
+  .nf-visualizer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 5px;
+    height: 64px;
+    margin: 0 auto 32px;
+  }
+  .nf-visualizer span {
+    width: 6px;
+    border-radius: 999px;
+    background: var(--color-primary);
+    height: 8px;
+    animation: nf-bar 1.1s ease-in-out infinite;
+  }
+  @keyframes nf-bar {
+    0%, 100% { height: 8px; opacity: .55; }
+    50% { height: var(--nf-bar-h, 46px); opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nf-visualizer span { animation: none; height: 20px; opacity: .8; }
+  }
+
+  .nf-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+
+  @media (max-width: 480px) {
+    .nf-card { padding: 36px 20px 32px; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="nf-blob nf-blob--a"></div>
+  <div class="nf-blob nf-blob--b"></div>
+
+  <main class="nf-card glass glass-strong">
+    <p class="nf-code">۴۰۴</p>
+    <h1 class="nf-title">این صفحه پیدا نشد</h1>
+    <p class="nf-desc">آدرسی که دنبالش بودی وجود نداره یا جابه‌جا شده. برگرد به فروشگاه و به گشتن ادامه بده.</p>
+
+    <div class="nf-visualizer" id="nf-visualizer" aria-hidden="true"></div>
+
+    <div class="nf-actions">
+      <a href="/" class="btn btn-primary"><i class="fa-solid fa-house"></i> بازگشت به صفحه‌ی اصلی</a>
+      <button type="button" class="btn btn-ghost" onclick="history.length > 1 ? history.back() : location.assign('/')">
+        <i class="fa-solid fa-arrow-right"></i> بازگشت به صفحه‌ی قبل
+      </button>
+    </div>
+  </main>
+
+  <script>
+    /* دمو ویژوالایزور — فقط تزئینی، بدون منبع صوتی واقعی */
+    (function () {
+      var wrap = document.getElementById('nf-visualizer');
+      var barCount = 22;
+      for (var i = 0; i < barCount; i++) {
+        var bar = document.createElement('span');
+        var h = 26 + Math.round(Math.random() * 38);
+        bar.style.setProperty('--nf-bar-h', h + 'px');
+        bar.style.animationDelay = (Math.random() * 1.1).toFixed(2) + 's';
+        bar.style.animationDuration = (0.8 + Math.random() * 0.7).toFixed(2) + 's';
+        wrap.appendChild(bar);
+      }
+    })();
+  </script>
+</body>
+</html>

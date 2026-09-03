@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ورود ادمین | Storefront</title>
+<meta name="robots" content="noindex, nofollow">
+
+<link rel="icon" type="image/svg+xml" href="/assets/favicon/favicon.svg">
+<meta name="theme-color" content="#7c4dff">
+
+<link rel="stylesheet" href="/assets/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/layout.css">
+</head>
+<body>
+
+<div class="admin-login-page">
+  <div class="admin-login-card glass glass-strong">
+    <div class="admin-brand" style="justify-content:center; padding-bottom:18px;">
+      <img src="/assets/images/logo.svg" alt="Storefront" class="brand-logo" width="40" height="40">
+      <strong>پنل مدیریت استورفرانت</strong>
+    </div>
+
+    <form id="admin-login-form" novalidate>
+      <div class="form-group">
+        <label for="admin-token-input">توکن ورود</label>
+        <input type="password" id="admin-token-input" autocomplete="current-password" required placeholder="توکن اختصاصی خودت رو وارد کن">
+        <span class="form-error" id="admin-token-error"></span>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-right-to-bracket"></i> ورود</button>
+    </form>
+  </div>
+</div>
+
+<script src="/assets/js/admin.js"></script>
+</body>
+</html>

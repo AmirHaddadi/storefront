@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="admin-page-title">پنل ادمین | Storefront</title>
+<meta name="robots" content="noindex, nofollow">
+
+<link rel="icon" type="image/svg+xml" href="/assets/favicon/favicon.svg">
+<meta name="theme-color" content="#7c4dff">
+
+<link rel="stylesheet" href="/assets/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/layout.css">
+<link rel="stylesheet" href="/assets/css/popup-selector.css">
+</head>
+<body>
+
+<div class="admin-shell">
+  <div class="admin-sidebar-overlay" id="admin-sidebar-overlay"></div>
+  <aside class="admin-sidebar glass" id="admin-sidebar">
+    <div class="admin-brand">
+      <img src="/assets/images/logo.svg" alt="Storefront" class="brand-logo" width="34" height="34">
+      <strong>پنل ادمین</strong>
+      <button class="icon-btn admin-sidebar-close-btn" id="admin-sidebar-close-btn" aria-label="بستن منو">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+      </button>
+    </div>
+    <nav class="admin-nav">
+      <a href="/admin/orders" class="admin-nav-link" data-section="orders"><i class="fa-solid fa-receipt"></i> سفارشات</a>
+      <a href="/admin/products" class="admin-nav-link" data-section="products"><i class="fa-solid fa-bag-shopping"></i> محصولات</a>
+      <a href="/admin/coupons" class="admin-nav-link" data-section="coupons"><i class="fa-solid fa-ticket"></i> کدهای تخفیف</a>
+      <a href="/admin/users" class="admin-nav-link" data-section="users"><i class="fa-solid fa-users"></i> کاربران</a>
+      <a href="/admin/appearance" class="admin-nav-link" data-section="appearance"><i class="fa-solid fa-palette"></i> ظاهر سایت</a>
+      <a href="/admin/admins" class="admin-nav-link" data-section="admins"><i class="fa-solid fa-user-shield"></i> ادمین‌ها</a>
+      <a href="/admin/reports" class="admin-nav-link" data-section="reports"><i class="fa-solid fa-chart-line"></i> گزارشات</a>
+    </nav>
+    <div class="admin-sidebar-footer">
+      <span class="admin-name" id="admin-name"></span>
+      <button class="btn btn-ghost btn-block" id="admin-telegram-link-btn" hidden><i class="fa-brands fa-telegram"></i> اتصال تلگرام</button>
+      <button class="btn btn-ghost btn-block" id="admin-theme-toggle"><i class="fa-solid fa-circle-half-stroke"></i> تغییر تم</button>
+      <button class="btn btn-ghost btn-block" id="admin-logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> خروج</button>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+    <div class="admin-header-row">
+      <button class="icon-btn admin-menu-toggle-btn" id="admin-menu-toggle-btn" aria-label="باز کردن منو">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+      </button>
+      <h1 id="admin-section-heading">سفارشات</h1>
+    </div>
+    <div id="admin-content"><!-- رندر توسط admin.js بر اساس سکشن فعال --></div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="/assets/js/vendor/jalaali.min.js"></script>
+<script src="/assets/js/vendor/chart.min.js"></script>
+<script src="/assets/js/popup-selector.js"></script>
+<script src="/assets/js/admin.js"></script>
+</body>
+</html>

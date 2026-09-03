@@ -1,0 +1,108 @@
+/* =========================================================
+   Storefront — Popup Selector (استایل)
+   از توکن‌های رنگی پروژه (tokens.css) استفاده می‌کند، بنابراین
+   با تغییر تم روشن/تیره (data-theme) خودکار هماهنگ می‌ماند.
+   ========================================================= */
+
+.popup-selector {
+  position: absolute;
+  z-index: 10001;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg);
+  min-width: 160px;
+  max-height: 300px;
+  overflow: hidden;
+  font-family: var(--font-fa);
+  font-size: 0.9rem;
+  animation: popupFadeIn 0.16s ease-out;
+}
+
+@keyframes popupFadeIn {
+  from { opacity: 0; transform: translateY(-8px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.popup-search {
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-alt);
+  color: var(--color-text);
+  box-sizing: border-box;
+  outline: none;
+  font-family: inherit;
+}
+.popup-search::placeholder { color: var(--color-text-muted); }
+
+.popup-options { list-style: none; margin: 0; padding: 0; max-height: 250px; overflow-y: auto; }
+.popup-option {
+  padding: 11px 14px;
+  cursor: pointer;
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-border);
+  transition: background-color .14s var(--ease);
+}
+.popup-option:last-child { border-bottom: none; }
+.popup-option:hover { background: var(--color-bg-alt); }
+.popup-option.selected { background: rgba(var(--color-primary-rgb), .12); color: var(--color-primary); font-weight: 600; }
+.popup-empty { padding: 16px; text-align: center; color: var(--color-text-muted); }
+
+[data-popup].popup-active { outline: 2px solid rgba(var(--color-primary-rgb), .5); outline-offset: 1px; }
+input[data-popup][readonly] {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238a7290'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left 35px center;
+  background-size: 9px;
+}
+
+/* ---------- تقویم شمسی ---------- */
+.popup-jalali-date { width: 280px; padding: 10px; }
+.popup-jalali-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 6px 10px;
+}
+.popup-jalali-title { font-weight: 700; font-size: 14px; }
+.popup-jalali-nav-btn {
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: none; border-radius: 50%; background: transparent; color: var(--color-text);
+  cursor: pointer; transition: background-color .15s var(--ease);
+}
+.popup-jalali-nav-btn:hover { background: var(--color-bg-alt); }
+
+.popup-jalali-weekdays, .popup-jalali-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+.popup-jalali-weekdays span {
+  text-align: center;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  padding-bottom: 6px;
+}
+.popup-jalali-day {
+  aspect-ratio: 1;
+  display: flex; align-items: center; justify-content: center;
+  border: none; border-radius: 50%; background: transparent;
+  color: var(--color-text); font-size: 13px; cursor: pointer;
+  transition: background-color .15s var(--ease);
+}
+.popup-jalali-day:hover { background: var(--color-bg-alt); }
+.popup-jalali-day.is-today { color: var(--color-primary); font-weight: 700; }
+.popup-jalali-day.selected { background: var(--color-primary); color: #fff; font-weight: 700; }
+.popup-jalali-day-blank { cursor: default; }
+.popup-jalali-day-blank:hover { background: transparent; }
+
+.popup-options::-webkit-scrollbar { width: 8px; }
+.popup-options::-webkit-scrollbar-thumb {
+  background: rgba(var(--color-primary-rgb), .35);
+  border-radius: 999px;
+}

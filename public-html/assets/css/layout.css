@@ -1,0 +1,720 @@
+/* =========================================================
+   Storefront — Layout
+   هدر/ناوبری، هیرو، دسته‌بندی‌ها، درباره، فوتر + کل ریسپانسیو
+   (باید بعد از components.css لود شود تا override ها درست اعمال شوند)
+   ========================================================= */
+
+/* ---------- بنر شناور بالای سایت ---------- */
+.top-banner {
+  position: fixed;
+  top: 0; inset-inline: 0;
+  z-index: 200;
+  height: var(--banner-h, 40px);
+  display: flex; align-items: center; justify-content: center;
+  background: var(--color-primary);
+  color: #fff;
+  overflow: hidden;
+}
+.top-banner[hidden] { display: none; }
+body.has-banner { padding-top: var(--banner-h, 40px); }
+.top-banner-link {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  height: 100%; padding: 0 40px; color: #fff; font-size: 13px; font-weight: 600;
+  text-align: center; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+}
+.top-banner-close {
+  position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; color: #fff; opacity: 0.75; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; padding: 4px;
+}
+.top-banner-close:hover { opacity: 1; }
+@media (max-width: 600px) {
+  .top-banner { height: var(--banner-h-mobile, 34px); }
+  body.has-banner { padding-top: var(--banner-h-mobile, 34px); }
+  .top-banner-link { font-size: 11px; padding: 0 26px; }
+  .top-banner-close { left: 6px; padding: 3px; }
+  .top-banner-close svg { width: 12px; height: 12px; }
+}
+@media (max-width: 380px) {
+  .top-banner { height: var(--banner-h-mobile-sm, 30px); }
+  body.has-banner { padding-top: var(--banner-h-mobile-sm, 30px); }
+  body.has-banner .site-header { top: var(--banner-h-mobile-sm, 30px); }
+  .top-banner-link { font-size: 9.5px; padding: 0 22px; }
+  .top-banner-close { left: 4px; padding: 2px; }
+  .top-banner-close svg { width: 10px; height: 10px; }
+}
+
+/* ---------- هدر ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--header-h);
+  border-radius: 0;
+  border-width: 0 0 1px;
+}
+/* وقتی بنر شناور فعاله، هدر باید زیر بنر بچسبه نه زیرش گم بشه (بنر z-index بالاتر داره) */
+body.has-banner .site-header { top: var(--banner-h, 40px); }
+@media (max-width: 600px) {
+  body.has-banner .site-header { top: var(--banner-h-mobile, 34px); }
+}
+.header-inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.brand { display: flex; align-items: center; gap: 6px; }
+.brand-logo {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  object-fit: contain;
+  background: #ffffff;
+  padding: 3px;
+  box-shadow: var(--shadow-sm);
+}
+.brand-name-group { display: flex; flex-direction: column; line-height: 1.3; }
+.brand-name { font-size: 14px; font-weight: 700; color: var(--color-primary); }
+.brand-name-fa { font-size: 9.5px; font-weight: 500; color: var(--color-text-muted); }
+
+/* بین ۸۶۱ (اولین عرضی که منوی دسکتاپ نشون داده می‌شه) تا ~۱۲۷۰ پیکسل، gap و
+   فونت با clamp() به‌صورت پیوسته/واکنش‌گرا کوچک و بزرگ می‌شن (نه با پرش‌های
+   breakpoint) تا با ۷ آیتم منو، هیچ‌کدوم دو-خطی نشن. */
+.main-nav ul { display: flex; flex-wrap: nowrap; gap: clamp(4px, 2.2vw - 12px, 16px); }
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: clamp(10.5px, .6vw + 5px, 12.5px);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  position: relative;
+  padding: 6px 0;
+  white-space: nowrap;
+  transition: color .2s var(--ease);
+}
+.nav-link i { font-size: clamp(9px, .5vw + 4px, 11px); }
+.nav-link:hover, .nav-link.active { color: var(--color-primary); }
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0; right: 0; left: 0;
+  height: 2px;
+  background: var(--color-primary);
+  transform: scaleX(0);
+  transition: transform .25s var(--ease);
+}
+.nav-link:hover::after { transform: scaleX(1); }
+
+/* ---------- دراپ‌داون دسته‌بندی‌ها در ناوبری ----------
+   کاملاً راست‌چین (direction صریح، نه فقط تکیه بر ارث‌بری از html) — فریم توپر
+   با رنگ سطح تم (نه شیشه‌ای/بلوردار)، تا خوانایی روی هر پس‌زمینه‌ای تضمین باشه. */
+.nav-item.has-dropdown { position: relative; }
+.nav-dropdown-caret { font-size: 10px; margin-inline-start: 2px; transition: transform .2s var(--ease); }
+.nav-item.has-dropdown:has(.nav-dropdown.open) .nav-dropdown-caret { transform: rotate(180deg); }
+
+.nav-dropdown {
+  direction: rtl;
+  position: absolute;
+  top: calc(100% + 10px);
+  inset-inline-end: 0;
+  min-width: 210px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: 6px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity .2s var(--ease), transform .2s var(--ease), visibility .2s;
+  z-index: 160;
+}
+/* فقط با کلیک باز/بسته می‌شه (کلاس open از جاوااسکریپت)؛ عمداً به :hover واکنشی
+   نداره تا با عبور موس از روش تصادفی باز/بسته نشه. */
+.nav-dropdown.open {
+  opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0);
+}
+
+.nav-dropdown-list { direction: rtl; display: flex; flex-direction: column; gap: 2px; list-style: none; }
+.nav-dropdown-item { direction: rtl; position: relative; }
+
+.nav-dropdown-link {
+  direction: rtl;
+  display: flex; align-items: center; gap: 8px;
+  width: 100%; padding: 9px 11px; border-radius: var(--radius-sm);
+  font-size: 12.5px; font-family: inherit; color: var(--color-text);
+  background: none; border: none; cursor: pointer; text-align: right;
+  transition: background-color .15s var(--ease), color .15s var(--ease);
+}
+.nav-dropdown-link:hover { background: rgba(var(--color-primary-rgb), .1); color: var(--color-primary); }
+
+.nav-dropdown-link-label {
+  direction: rtl;
+  display: block;
+  flex: 1; min-width: 0; color: inherit; text-align: right;
+}
+
+/* آیتم‌های دارای زیرمجموعه: خود متن یک لینک مستقل (می‌ره به دسته‌ی کلی)، دکمه‌ی
+   جدا فقط بازکردن/بستن لیست زیرمجموعه‌هاست — این‌طوری کلیک روی نام دسته دیگه
+   اجباری به انتخاب زیرمجموعه نداره. */
+.nav-dropdown-link--parent { cursor: default; padding-inline-end: 5px; }
+.nav-dropdown-sub-toggle {
+  display: inline-flex; align-items: center; justify-content: center;
+  flex-shrink: 0; width: 26px; height: 26px; border-radius: var(--radius-sm);
+  background: none; border: none; cursor: pointer; color: var(--color-text-muted);
+  transition: background-color .15s var(--ease), color .15s var(--ease);
+}
+.nav-dropdown-sub-toggle:hover { background: rgba(var(--color-primary-rgb), .1); color: var(--color-primary); }
+.nav-dropdown-sub-caret { font-size: 9px; color: inherit; transition: transform .2s var(--ease); flex-shrink: 0; }
+.nav-dropdown-item.has-children:hover .nav-dropdown-sub-caret,
+.nav-dropdown-item.is-expanded .nav-dropdown-sub-caret { transform: rotate(-90deg); }
+
+.nav-dropdown-sublist {
+  direction: rtl;
+  list-style: none;
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 3px 0 3px;
+  margin: 2px 0 0;
+  margin-inline-end: 14px;
+  border-inline-end: 1px solid var(--color-border);
+  max-height: 0; overflow: hidden;
+  transition: max-height .25s var(--ease);
+}
+.nav-dropdown-item.has-children:hover .nav-dropdown-sublist,
+.nav-dropdown-item.is-expanded .nav-dropdown-sublist { max-height: 400px; }
+.nav-dropdown-sublink {
+  direction: rtl;
+  display: block; text-align: right;
+  padding: 8px 11px; border-radius: var(--radius-sm); font-size: 11.5px; color: var(--color-text-muted);
+  transition: background-color .15s var(--ease), color .15s var(--ease);
+}
+.nav-dropdown-sublink:hover { color: var(--color-primary); background: rgba(var(--color-primary-rgb), .1); }
+
+.header-actions { display: flex; align-items: center; gap: 2px; }
+.icon-sun, .icon-moon { position: absolute; transition: opacity .2s var(--ease), transform .3s var(--ease); }
+.icon-moon { opacity: 0; transform: rotate(-60deg); }
+[data-theme="dark"] .icon-sun { opacity: 0; transform: rotate(60deg); }
+[data-theme="dark"] .icon-moon { opacity: 1; transform: rotate(0); }
+.icon-sun { opacity: 1; transform: rotate(0); }
+
+.cart-btn { position: relative; }
+.cart-count {
+  position: absolute;
+  top: 1px; left: 1px;
+  min-width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0 2px;
+}
+
+.hamburger { display: none; flex-direction: column; gap: 4px; }
+.hamburger span {
+  display: block;
+  width: 16px; height: 2px;
+  background: var(--color-text);
+  border-radius: 2px;
+  transition: transform .25s var(--ease), opacity .25s var(--ease);
+}
+.hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* ---------- هیرو ---------- */
+.hero {
+  position: relative;
+  min-height: 340px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.hero-media { position: absolute; inset: 0; z-index: 0; overflow: hidden; background: var(--color-primary); }
+.hero-slides {
+  position: absolute; inset: 0;
+  display: flex;
+  direction: ltr;
+  width: 100%; height: 100%;
+  transition: transform .45s var(--ease);
+  will-change: transform;
+  touch-action: pan-y;
+}
+.hero-slides.dragging { transition: none; }
+.hero-slide-item {
+  position: relative;
+  flex: 0 0 100%;
+  width: 100%; height: 100%;
+  overflow: hidden;
+}
+/* تور ایمنی: نسخه‌ی محو و بزرگ‌نمایی‌شده‌ی همون عکس، زیر .hero-img. با cover همیشه کل
+   کادر پر می‌شه و این لایه عملاً دیده نمی‌شه؛ فقط اگه یه‌ روزی عکسی با نسبت غیرمعمول
+   (خیلی کشیده/پرتره) آپلود بشه و جایی از لبه خالی بمونه، به‌جای گرادینت تخت همین
+   بک‌گراند محو دیده می‌شه. */
+.hero-slide-bg {
+  position: absolute;
+  inset: -6%;
+  background-size: cover;
+  background-position: center;
+  filter: blur(28px) brightness(.7) saturate(1.15);
+  transform: scale(1.08);
+}
+.hero-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: 20% top;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.hero-placeholder { position: absolute; inset: 0; }
+.hero-media::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(100deg, rgba(var(--color-accent-rgb), .36), rgba(var(--color-primary-rgb), .3) 55%, rgba(43, 23, 48, .22));
+  z-index: 1;
+}
+.hero-content { position: relative; z-index: 2; max-width: 620px; color: #fff; }
+.hero-eyebrow { font-weight: 600; font-size: 12px; opacity: .9; margin-bottom: 7px; }
+.hero-title { font-size: clamp(19px, 3.2vw, 30px); font-weight: 700; line-height: 1.3; margin-bottom: 10px; }
+.hero-subtitle { font-size: 13px; opacity: .92; margin-bottom: 16px; max-width: 520px; }
+
+.hero-nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  z-index: 3;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .16);
+  backdrop-filter: blur(var(--glass-blur-sm));
+  -webkit-backdrop-filter: blur(var(--glass-blur-sm));
+  border: 1px solid rgba(255, 255, 255, .35);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  transition: background-color .2s var(--ease), transform .2s var(--ease);
+}
+.hero-nav:hover { background: rgba(255, 255, 255, .3); }
+.hero-nav:active { transform: translateY(-50%) scale(.92); }
+.hero-nav svg { width: 14px; height: 14px; }
+.hero-prev { left: 10px; }
+.hero-next { right: 10px; }
+
+.hero-dots {
+  position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+  z-index: 3;
+  display: flex; gap: 5px;
+}
+.hero-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .5);
+  border: none;
+  padding: 0;
+  transition: background-color .2s var(--ease), transform .2s var(--ease);
+}
+.hero-dot.active { background: #fff; transform: scale(1.25); }
+
+/* ---------- دسته‌بندی‌ها ---------- */
+.categories { padding: 38px 0; }
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 11px;
+}
+
+/* ---------- کاتالوگ محصولات (بخش سکشن؛ کارت‌ها و فیلتر در components.css) ---------- */
+.products { padding: 38px 0 48px; background: var(--color-bg-alt); }
+.products-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+@media (min-width: 900px) { .products-layout { grid-template-columns: 190px minmax(0, 1fr); align-items: start; } }
+
+/* ---------- محصولات جدید: کشویی افقی، حس «تازه» ---------- */
+.new-arrivals { padding: 38px 0; }
+.new-arrivals-track {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary-light) transparent;
+}
+.new-arrivals-track .product-card {
+  flex: 0 0 140px;
+  scroll-snap-align: start;
+}
+@media (min-width: 640px) { .new-arrivals-track .product-card { flex-basis: 160px; } }
+
+/* ---------- پرطرفدارها: نشان اعتماد اجتماعی ---------- */
+.bestsellers {
+  padding: 38px 0;
+  background: var(--color-bg-alt);
+}
+.bestsellers-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+@media (min-width: 640px) { .bestsellers-grid { grid-template-columns: repeat(3, 1fr); gap: 13px; } }
+@media (min-width: 1000px) { .bestsellers-grid { grid-template-columns: repeat(4, 1fr); } }
+.trust-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 10px; font-weight: 700;
+  color: #b8791f;
+  margin-top: 1px;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+}
+.trust-badge i.fa-fire { color: var(--color-gold); }
+.trust-badge .stars { display: inline-flex; gap: 1px; color: var(--color-gold); font-size: 9px; }
+.trust-badge .stars i.is-empty { color: var(--color-border); }
+
+.bestseller-top {
+  border: 1.5px solid var(--color-gold);
+  box-shadow: 0 6px 22px rgba(255, 184, 77, .28);
+}
+.bestseller-rank-badge {
+  position: absolute; top: 6px; right: 6px; left: auto; z-index: 2;
+  width: 15px; height: 15px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: var(--color-gold);
+  border: 1px solid #b8791f;
+  color: #fff; font-weight: 700; font-size: 8px;
+  opacity: .65;
+}
+
+/* ---------- تخفیف‌های امروز/هفته: بخش اولویت اول لندینگ، با یک قاب بردردار متمایز می‌شه ---------- */
+.deals-section {
+  padding: 38px 0;
+  position: relative;
+}
+.deals-section .container {
+  border: 1.5px solid var(--color-primary);
+  border-radius: var(--radius-lg);
+  padding: 24px 18px;
+}
+@media (min-width: 640px) { .deals-section .container { padding: 30px 26px; } }
+.deals-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+@media (min-width: 700px) {
+  .deals-header { flex-direction: row; justify-content: space-between; align-items: flex-end; text-align: right; }
+  .deals-heading { text-align: right; margin-bottom: 0; }
+}
+.deals-countdown {
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  padding: 9px 14px;
+  border-radius: var(--radius-lg);
+  flex-shrink: 0;
+}
+.countdown-label { font-size: 10px; font-weight: 600; color: var(--color-text-muted); }
+.countdown-timer { display: flex; align-items: center; gap: 4px; direction: ltr; }
+.countdown-unit { display: flex; flex-direction: column; align-items: center; min-width: 26px; }
+.countdown-unit strong { font-size: 14px; font-weight: 700; color: var(--color-primary); line-height: 1.2; }
+.countdown-unit small { font-size: 8px; color: var(--color-text-muted); }
+.countdown-sep { font-size: 13px; font-weight: 700; color: var(--color-text-muted); }
+
+.deals-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+@media (min-width: 640px) { .deals-grid { grid-template-columns: repeat(3, 1fr); gap: 13px; } }
+@media (min-width: 1000px) { .deals-grid { grid-template-columns: repeat(4, 1fr); } }
+
+.stock-progress { margin-top: 5px; }
+.stock-progress-bar {
+  height: 5px;
+  border-radius: 999px;
+  background: var(--color-bg-alt);
+  overflow: hidden;
+}
+.stock-progress-bar span {
+  display: block; height: 100%;
+  position: relative;
+  background: var(--color-primary);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.stock-progress-bar span::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, .55) 50%, transparent 70%);
+  background-size: 200% 100%;
+  animation: stock-progress-shine 2.2s linear infinite;
+}
+@keyframes stock-progress-shine {
+  from { background-position: 150% 0; }
+  to { background-position: -50% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stock-progress-bar span::after { animation: none; }
+}
+.stock-progress-label { font-size: 9px; color: var(--color-text-muted); margin-top: 3px; display: block; }
+
+/* ---------- پیشنهاد استورفرانت به سخت‌پسندها: ادیتوریال ویژه، کاملاً واکنش‌گرا به تم ----------
+   قبلاً از --color-black هاردکد استفاده می‌شد که در هر دو تم تیره‌ست (رنگ فوتر)، پس این
+   سکشن مستقل از تم انتخابی همیشه تاریک به‌نظر می‌رسید و کنتراست درستی با بقیه‌ی سایت نداشت. */
+.picky-picks { padding: 44px 0; background: var(--color-bg-alt); }
+.picky-heading .section-eyebrow { color: var(--color-primary); }
+.picky-heading h2 { color: var(--color-text); }
+.picky-heading p { color: var(--color-text-muted); }
+.picky-picks-list {
+  display: flex;
+  gap: 11px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary-light) transparent;
+}
+.picky-pick-card {
+  flex: 0 0 150px;
+  scroll-snap-align: start;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-md);
+}
+@media (min-width: 640px) { .picky-pick-card { flex-basis: 165px; } }
+.picky-pick-media { position: relative; aspect-ratio: 3/4; background: var(--color-bg-alt); }
+.picky-pick-media img { width: 100%; height: 100%; object-fit: contain; background: var(--color-bg-alt); }
+.picky-pick-body { padding: 9px; }
+.picky-pick-name { font-size: 12px; font-weight: 700; color: var(--color-text); margin-bottom: 4px; }
+.picky-pick-quote { font-size: 11px; color: var(--color-text-muted); line-height: 1.7; margin-bottom: 6px; }
+.picky-pick-price { font-size: 12px; font-weight: 700; color: var(--color-primary); }
+
+/* ---------- درباره برند ---------- */
+.about { padding: 44px 0; }
+.about-inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  align-items: center;
+}
+@media (min-width: 800px) { .about-inner { grid-template-columns: 1fr 1fr; } }
+.about-media { position: relative; aspect-ratio: 4/3; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); }
+.about-img { width: 100%; height: 100%; object-fit: cover; }
+.about-text h2 { font-size: 19px; font-weight: 700; margin-bottom: 8px; }
+.about-text p { color: var(--color-text-muted); margin-bottom: 8px; font-size: 13px; }
+.about-text p:first-of-type { color: var(--color-text); font-weight: 500; }
+
+/* ---------- فوتر ---------- */
+.site-footer { background: var(--color-black); color: #e9e3e7; padding: 34px 0 0; }
+.footer-inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+@media (min-width: 700px) { .footer-inner { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); } }
+.footer-brand { display: flex; flex-direction: column; gap: 6px; }
+.footer-brand .brand-name { color: #fff; }
+.footer-brand p { color: #a89ba3; font-size: 11px; }
+.footer-links h3, .footer-contact h3, .footer-address h3 {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12.5px; margin-bottom: 8px; color: #fff;
+}
+.footer-links ul, .footer-contact ul { display: flex; flex-direction: column; gap: 6px; }
+.footer-links a, .footer-contact a {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: #a89ba3; font-size: 11.5px; transition: color .2s var(--ease);
+}
+.footer-links a:hover, .footer-contact a:hover { color: var(--color-primary-light); }
+.footer-links i, .footer-contact i, .footer-address i { width: 14px; text-align: center; font-size: 11px; }
+.social-links li { display: flex; }
+.social-links a i { font-size: 13px; }
+.footer-address-text { color: #a89ba3; font-size: 11.5px; line-height: 1.9; margin-bottom: 10px; }
+.footer-hours { display: flex; flex-direction: column; gap: 5px; }
+.footer-hours li { display: flex; justify-content: space-between; gap: 8px; font-size: 11px; color: #a89ba3; }
+.footer-hours li span:first-child { display: inline-flex; align-items: center; gap: 5px; }
+.footer-hours li i { font-size: 9.5px; }
+.footer-hours li span:last-child { color: #e9e3e7; font-weight: 600; }
+.footer-bottom { text-align: center; padding: 12px 0; font-size: 11px; color: #83757e; }
+.footer-enamad { display: flex; justify-content: center; margin-bottom: 10px; }
+.footer-enamad img { max-width: 90px; height: auto; border-radius: 6px; }
+
+/* ---------- ریسپانسیو: هدر موبایل ---------- */
+@media (max-width: 860px) {
+  .main-nav {
+    position: fixed;
+    top: var(--header-h);
+    right: 0; left: 0;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-8px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s var(--ease), transform .25s var(--ease);
+    z-index: 99;
+    max-height: calc(100vh - var(--header-h));
+    overflow-y: auto;
+  }
+  .main-nav.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .main-nav ul { flex-direction: column; gap: 0; padding: 6px 14px 10px; }
+  .main-nav a { display: block; padding: 9px 0; border-bottom: 1px solid var(--color-border); }
+  .main-nav li:last-child a { border-bottom: none; }
+  .hamburger { display: flex; }
+
+  /* دراپ‌داون دسته‌بندی‌ها روی موبایل به‌صورت آکاردئون داخل همون منوی کشویی باز می‌شه —
+     پس کلاس‌های glass (بلور/بک‌گراند/سایه‌ی خودش) این‌جا خنثی می‌شن، چون قراره کاملاً
+     شفاف و هم‌رنگ با پس‌زمینه‌ی همون منوی کشویی دیده بشه. */
+  .nav-dropdown {
+    position: static;
+    opacity: 1; visibility: visible; pointer-events: auto; transform: none;
+    background: none; backdrop-filter: none; -webkit-backdrop-filter: none;
+    border: none; box-shadow: none; border-radius: 0; padding: 0;
+    max-height: 0; overflow: hidden;
+    transition: max-height .3s var(--ease);
+  }
+  .nav-dropdown.open { max-height: 600px; padding-bottom: 4px; }
+  /* :hover روی موبایل با تپ می‌تونه sticky بمونه؛ چون این سلکتور طبق ویژگی(specificity)
+     از قانون ".is-expanded" (که با تپ باز می‌شه) قوی‌تر بود، زیرمنوی بازشده رو دوباره
+     می‌بست — با :not(.is-expanded) این تداخل رفع شده. */
+  .nav-dropdown-item.has-children:hover:not(.is-expanded) .nav-dropdown-sublist { max-height: 0; }
+  .nav-dropdown-item.is-expanded .nav-dropdown-sublist { max-height: 400px; }
+  .main-nav .nav-dropdown-link { border-bottom: none; padding: 8px 6px; }
+  .main-nav .nav-dropdown-sublink { border-bottom: none; padding: 8px 6px; }
+
+  .header-inner { gap: 6px; }
+  .brand { gap: 5px; }
+  .brand-logo { width: 24px; height: 24px; padding: 3px; }
+  .brand-name-group { line-height: 1.15; }
+  .brand-name { font-size: 12px; }
+  .brand-name-fa { font-size: 8.5px; }
+
+  .hero-nav { top: auto; bottom: 10px; transform: none; width: 24px; height: 24px; }
+  .hero-nav:active { transform: scale(.92); }
+  .hero-nav svg { width: 11px; height: 11px; }
+  .hero-prev { left: 8px; }
+  .hero-next { right: 8px; }
+  .hero-dots { bottom: 14px; }
+
+  .product-badges { gap: 3px; }
+  .bestseller-rank-badge { width: 13px; height: 13px; font-size: 7px; opacity: .55; top: 4px; right: 4px; left: auto; }
+}
+
+@media (min-width: 861px) {
+  .main-nav { display: block; }
+
+  /* قبلاً این‌جا روی دسکتاپ object-fit:contain ست شده بود، چون فرض بر عکس‌های عمودی/پرتره
+     بود. عکس‌های واقعی هیرو که از پنل ادمین آپلود می‌شن الان لندسکیپ عریض‌اند (~۱۶۵۹×۹۴۸،
+     نسبت تقریبی ۱٫۷۵:۱ — دقیقاً برای همین بنر ساخته شدن: سوژه یک‌سومِ چپ کادر، نیمه‌ی راست باز).
+     با contain روی مانیتورهای بزرگ (که کادر هیرو خیلی عریض‌تر از این نسبته) عکس فقط تا ارتفاع
+     کادر Scale می‌شد و دو طرفش فضای خالی/گرادینت تخت می‌موند — همون باگی که گزارش شده بود؛ این
+     override خودش عامل مشکل بود، نه راه‌حلش. الان با cover (مثل موبایل) عکس همیشه کل عرض/ارتفاع
+     رو بدون فضای خالی و بدون بزرگ‌نمایی/افت کیفیت پر می‌کنه؛ روی مانیتورهای خیلی عریض فقط کمی
+     از بالا/پایین عکس کراپ می‌شه که چون object-position روی «۲۰٪ از چپ، بالا» تنظیمه، همون قسمتی
+     از عکس که سوژه/صورت مدلشه همیشه داخل کادر می‌مونه. لایه‌ی .hero-slide-bg (نسخه‌ی محوِ خودِ
+     عکس) هم به‌عنوان تور ایمنی باقی می‌مونه، برای هر عکسی که در آینده نسبت غیرلندسکیپ داشته باشه. */
+}
+
+/* ---------- ریسپانسیو: گوشی‌های باریک (تا ۳۲۰ پیکسل) ---------- */
+@media (max-width: 420px) {
+  .container { padding: 0 12px; }
+
+  .header-inner { gap: 5px; }
+  .icon-btn { width: 26px; height: 26px; }
+  .icon-btn svg { width: 15px; height: 15px; }
+
+  .hero { min-height: 280px; }
+  .hero-content { max-width: 100%; }
+  .btn { padding: 7px 13px; font-size: 12px; }
+  .hero-dots { gap: 4px; }
+  .hero-dot { width: 5px; height: 5px; }
+
+  .cart-header, .cart-body, .cart-footer { padding-inline: 10px; }
+
+  .modal { padding: 16px 12px; }
+  #checkout-title { font-size: 15px; }
+
+  .search-panel-inner { padding: 7px 0; gap: 6px; }
+  .search-panel-inner input { font-size: 12px; }
+  .search-result-media { width: 32px; height: 40px; }
+  .search-result-name { font-size: 11px; }
+
+  .form-row { grid-template-columns: 1fr; }
+  .account-dropdown { min-width: 190px; }
+  .size-form, .profile-form, .track-form { padding: 12px; }
+}
+
+/* ---------- ریسپانسیو: زیر ۳۲۰ پیکسل (گوشی‌های خیلی باریک / تاشو) ---------- */
+@media (max-width: 340px) {
+  .container { padding: 0 10px; }
+
+  .header-inner { gap: 4px; }
+  .brand { gap: 4px; }
+  .brand-logo { width: 20px; height: 20px; padding: 2px; }
+  .brand-name { font-size: 11px; }
+  .brand-name-fa { display: none; }
+  .header-actions { gap: 0; }
+  .icon-btn { width: 24px; height: 24px; }
+  .icon-btn svg { width: 13px; height: 13px; }
+  .cart-count { min-width: 12px; height: 12px; font-size: 7.5px; }
+
+  .hero { min-height: 240px; }
+  .hero-eyebrow { font-size: 10px; margin-bottom: 5px; }
+  .hero-title { font-size: 16px; margin-bottom: 7px; line-height: 1.35; }
+  .hero-subtitle { font-size: 11px; margin-bottom: 10px; }
+  .btn { padding: 7px 12px; font-size: 11px; }
+
+  .section-heading { margin-bottom: 28px; }
+  .section-heading h2 { font-size: 20px; }
+  .section-heading p { font-size: 13px; }
+
+  .categories { padding: 44px 0; }
+  .category-grid { gap: 10px; }
+  .category-overlay { padding: 12px; }
+  .category-overlay h3 { font-size: 15px; }
+
+  .products { padding: 44px 0 56px; }
+  .filter-bar { gap: 6px; margin-bottom: 22px; }
+  .filter-btn { padding: 7px 14px; font-size: 12.5px; }
+  .product-grid { gap: 8px; }
+  .product-info { padding: 8px 8px 10px; gap: 4px; }
+  .product-name { font-size: 12px; }
+  .product-price { font-size: 12px; }
+  .product-price .old-price { font-size: 11px; }
+  .add-to-cart-btn { font-size: 11px; padding: 7px; gap: 4px; }
+  .add-to-cart-btn svg { width: 13px; height: 13px; }
+  .product-badges { gap: 4px; }
+  .badge-pill { font-size: 9px; padding: 3px 7px; }
+  .trust-badge { font-size: 9.5px; gap: 3px; }
+  .trust-badge .stars { font-size: 8.5px; }
+  .bestseller-rank-badge { width: 15px; height: 15px; font-size: 7.5px; opacity: .5; top: 5px; right: 5px; left: auto; }
+  .stock-status { font-size: 10px; }
+  .media-color-swatches { bottom: 6px; left: 6px; gap: 4px; }
+  .media-color-swatch { width: 12px; height: 12px; border-radius: 3px; }
+  .product-category-icon { bottom: 6px; right: 6px; width: 20px; height: 20px; font-size: 9px; }
+
+  .about { padding: 48px 0; }
+  .about-text h2 { font-size: 20px; }
+  .about-text p { font-size: 13px; }
+
+  .footer-inner { gap: 20px; padding-bottom: 28px; }
+  .footer-links h3, .footer-contact h3, .footer-address h3 { font-size: 14px; }
+  .footer-links a, .footer-contact a { font-size: 13px; }
+  .footer-address-text { font-size: 12.5px; }
+  .footer-hours li { font-size: 12px; }
+
+  .cart-item-media { width: 56px; height: 70px; }
+  .cart-item-name { font-size: 13px; }
+  .cart-item-price { font-size: 12px; }
+
+  .modal { padding: 18px 12px; }
+  #checkout-title { font-size: 17px; }
+  .modal-subtitle { font-size: 12.5px; margin: 6px 0 16px; }
+  .form-group input, .form-group textarea { padding: 10px 12px; font-size: 13px; }
+}

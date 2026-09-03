@@ -1,0 +1,49 @@
+{
+  "name": "storefront",
+  "version": "0.1.0",
+  "description": "Storefront — a generic, Persian-first, framework-free e-commerce foundation built on Node.js, Express 5 and MongoDB.",
+  "license": "MIT",
+  "author": "Amir Haddadi (https://github.com/AmirHaddadi)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AmirHaddadi/storefront.git"
+  },
+  "homepage": "https://github.com/AmirHaddadi/storefront#readme",
+  "bugs": {
+    "url": "https://github.com/AmirHaddadi/storefront/issues"
+  },
+  "keywords": [
+    "ecommerce",
+    "storefront",
+    "express",
+    "mongodb",
+    "mongoose",
+    "vanilla-js",
+    "rtl",
+    "persian",
+    "shop",
+    "catalog"
+  ],
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node server/scripts/seed.js",
+    "seed:reset": "node server/scripts/seed.js --reset",
+    "check": "node --check server.js && node -e \"require('./server/app')\""
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "adm-zip": "^0.6.0",
+    "bson": "^7.3.1",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.4.2",
+    "exceljs": "^4.4.0",
+    "express": "^5.2.1",
+    "mongoose": "^9.8.0",
+    "multer": "^2.2.0",
+    "sharp": "^0.35.3",
+    "telegraf": "^4.16.3"
+  }
+}

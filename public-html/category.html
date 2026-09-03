@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دسته‌بندی محصولات | Storefront</title>
+<meta name="description" content="Storefront — فهرست کامل محصولات این دسته‌بندی با امکان جستجو، فیلتر و صفحه‌بندی.">
+<meta property="og:title" content="Storefront | فروشگاه آنلاین">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fa_IR">
+
+<!-- Favicon (استاندارد، هندل کامل در همه‌ی دستگاه‌ها و مرورگرها) -->
+<link rel="icon" type="image/svg+xml" href="/assets/favicon/favicon.svg">
+<link rel="manifest" href="/assets/favicon/site.webmanifest">
+<meta name="theme-color" content="#7c4dff">
+
+<link rel="stylesheet" href="/assets/fontawesome/css/all.min.css">
+<!-- سیستم طراحی ماژولار: ترتیب لود مهم است (توکن‌ها اول، لایه‌ی چیدمان آخر) -->
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/layout.css">
+</head>
+<body>
+
+<!-- ============ بنر شناور بالای سایت ============ -->
+<div class="top-banner" id="top-banner" hidden>
+  <a class="top-banner-link" id="top-banner-link" href="#">
+    <span id="top-banner-text"></span>
+  </a>
+  <button type="button" class="top-banner-close" id="top-banner-close" aria-label="بستن بنر">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+  </button>
+</div>
+
+<!-- ============ هدر ============ -->
+<header class="site-header glass" id="site-header">
+  <div class="container header-inner">
+    <a href="/#hero" class="brand">
+      <img src="/assets/images/logo.svg" alt="Storefront" class="brand-logo" width="44" height="44">
+      <span class="brand-name-group">
+        <span class="brand-name">Storefront</span>
+        <span class="brand-name-fa">استورفرانت</span>
+      </span>
+    </a>
+
+    <nav class="main-nav" id="main-nav">
+      <ul>
+        <li><a href="/#hero" class="nav-link"><i class="fa-solid fa-house"></i> خانه</a></li>
+        <li class="nav-item has-dropdown" id="nav-item-categories">
+          <a href="/#categories" class="nav-link" id="nav-categories-toggle"><i class="fa-solid fa-layer-group"></i> دسته‌بندی‌ها <i class="fa-solid fa-chevron-down nav-dropdown-caret"></i></a>
+          <div class="nav-dropdown" id="nav-category-dropdown" dir="rtl"><!-- رندر داینامیک توسط script.js --></div>
+        </li>
+        <li><a href="/#products" class="nav-link"><i class="fa-solid fa-bag-shopping"></i> محصولات</a></li>
+        <li><a href="/#about" class="nav-link"><i class="fa-solid fa-circle-info"></i> درباره ما</a></li>
+        <li><a href="/contact" class="nav-link"><i class="fa-solid fa-phone"></i> تماس با ما</a></li>
+        <li><a href="/faq" class="nav-link"><i class="fa-solid fa-circle-question"></i> سوالات متداول</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <button class="icon-btn" id="search-open-btn" aria-label="جستجوی محصولات" title="جستجو">
+        <svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.3-4.3"></path>
+        </svg>
+      </button>
+
+      <button class="icon-btn" id="theme-toggle" aria-label="تغییر پوسته روشن/تیره" title="تغییر پوسته">
+        <svg class="icon icon-sun" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+        </svg>
+        <svg class="icon icon-moon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+
+      <div class="account-menu">
+        <button class="icon-btn" id="account-open-btn" aria-label="حساب کاربری" aria-expanded="false">
+          <svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </button>
+        <div class="account-dropdown glass glass-strong" id="account-dropdown" aria-hidden="true"><!-- رندر توسط script.js بر اساس وضعیت لاگین --></div>
+      </div>
+
+      <button class="icon-btn cart-btn" id="cart-open-btn" aria-label="سبد خرید">
+        <svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        <span class="cart-count" id="cart-count">0</span>
+      </button>
+
+      <button class="icon-btn hamburger" id="hamburger-btn" aria-label="منو" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ پنل جستجوی محصولات ============ -->
+<div class="search-panel glass" id="search-panel" aria-hidden="true">
+  <div class="container search-panel-inner">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+    <input type="search" id="search-input" placeholder="جستجوی محصول..." aria-label="جستجوی محصول">
+    <button class="icon-btn search-close-btn" id="search-close-btn" aria-label="بستن جستجو">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+    </button>
+  </div>
+  <div class="search-results container" id="search-results"></div>
+</div>
+<div class="overlay" id="search-overlay"></div>
+
+<!-- ============ صفحه‌ی اختصاصی دسته‌بندی ============ -->
+<main>
+  <section class="products category-page-section" id="category-page">
+    <div class="container">
+      <div class="section-heading category-page-heading" id="category-page-heading">
+        <!-- رندر توسط script.js: نام + شرح دسته‌بندی (یا پیام «یافت نشد») -->
+      </div>
+
+      <button class="btn btn-ghost filter-mobile-open-btn" id="cp-filter-mobile-open-btn"><i class="fa-solid fa-sliders"></i> فیلترها</button>
+
+      <div class="products-layout" id="category-page-layout" hidden>
+        <aside class="filter-sidebar glass" id="cp-filter-sidebar" aria-hidden="false">
+          <div class="filter-sidebar-header">
+            <h3>فیلترها</h3>
+            <button class="icon-btn" id="cp-filter-mobile-close-btn" aria-label="بستن فیلتر">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+            </button>
+          </div>
+
+          <div class="filter-group">
+            <h4>جستجو در این دسته‌بندی</h4>
+            <input type="search" class="cp-search-input" id="cp-search-input" placeholder="نام محصول را جستجو کن...">
+          </div>
+
+          <div class="filter-group" id="cp-subcategory-group" hidden>
+            <h4>زیرمجموعه</h4>
+            <div id="cp-subcategory-list"><!-- چک‌باکس‌ زیرمجموعه‌ها، رندر توسط script.js --></div>
+          </div>
+
+          <div class="filter-group">
+            <h4>موجودی</h4>
+            <label class="filter-switch">
+              <input type="checkbox" id="cp-filter-instock-only">
+              <span class="filter-switch-track"></span>
+              فقط کالای موجود
+            </label>
+          </div>
+
+          <div class="filter-group">
+            <h4>رنگ</h4>
+            <div class="filter-color-list" id="cp-filter-color-list"><!-- دایره‌های رنگی، رندر توسط script.js --></div>
+          </div>
+
+          <button class="btn btn-ghost btn-block" id="cp-filter-reset-btn"><i class="fa-solid fa-arrow-rotate-left"></i> پاک‌کردن فیلترها</button>
+        </aside>
+        <div class="overlay" id="cp-filter-overlay"></div>
+
+        <div class="product-grid" id="cp-product-grid"><!-- کارت‌های محصول، رندر توسط script.js --></div>
+      </div>
+      <div class="pagination-bar" id="cp-products-pagination"></div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ فوتر ============ -->
+<footer class="site-footer" id="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <img src="/assets/images/logo.svg" alt="Storefront" class="brand-logo" width="40" height="40">
+      <span class="brand-name-group">
+        <span class="brand-name">Storefront</span>
+        <span class="brand-name-fa">استورفرانت</span>
+      </span>
+      <p>خرید ساده، مطمئن و سریع</p>
+    </div>
+
+    <div class="footer-links">
+      <h3><i class="fa-solid fa-link"></i> دسترسی سریع</h3>
+      <ul>
+        <li><a href="/#hero"><i class="fa-solid fa-house"></i> خانه</a></li>
+        <li><a href="/#products"><i class="fa-solid fa-bag-shopping"></i> محصولات</a></li>
+        <li><a href="/#about"><i class="fa-solid fa-circle-info"></i> درباره ما</a></li>
+        <li><a href="/faq"><i class="fa-solid fa-circle-question"></i> سوالات متداول</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-contact">
+      <h3><i class="fa-solid fa-comments"></i> ارتباط با ما</h3>
+      <ul class="social-links">
+        <li>
+          <a href="https://wa.me/989000000000" target="_blank" rel="noopener">
+            <i class="fa-brands fa-whatsapp"></i>
+            واتساپ
+          </a>
+        </li>
+        <li>
+          <a href="https://t.me/your_channel" target="_blank" rel="noopener">
+            <i class="fa-brands fa-telegram"></i>
+            تلگرام
+          </a>
+        </li>
+        <li><a href="tel:09000000000"><i class="fa-solid fa-phone"></i> 09000000000</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-address">
+      <h3><i class="fa-solid fa-location-dot"></i> آدرس و ساعات کاری</h3>
+      <p class="footer-address-text">نشانی فروشگاه شما اینجا نمایش داده می‌شود (از پنل مدیریت/کد قابل تنظیم)</p>
+      <ul class="footer-hours">
+        <li><span><i class="fa-solid fa-clock"></i> شنبه تا پنجشنبه (صبح)</span><span>۱۰:۳۰ تا ۱۴:۰۰</span></li>
+        <li><span><i class="fa-solid fa-clock"></i> شنبه تا پنجشنبه (عصر)</span><span>۱۷:۰۰ تا ۲۳:۳۰</span></li>
+        <li><span><i class="fa-solid fa-clock"></i> جمعه</span><span>۱۷:۰۰ تا ۲۳:۰۰</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© <span id="footer-year"></span> Storefront. تمامی حقوق محفوظ است.</p>
+  </div>
+</footer>
+
+<!-- ============ اورلی و درور سبد خرید ============ -->
+<div class="overlay" id="overlay"></div>
+
+<aside class="cart-drawer glass glass-strong" id="cart-drawer" aria-hidden="true">
+  <div class="cart-header">
+    <h2>سبد خرید</h2>
+    <div class="cart-header-actions">
+      <button class="icon-btn" id="cart-clear-btn" aria-label="خالی کردن سبد خرید" title="خالی کردن سبد خرید" hidden>
+        <i class="fa-regular fa-trash-can"></i>
+      </button>
+      <button class="icon-btn" id="cart-close-btn" aria-label="بستن سبد خرید">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="cart-body" id="cart-body">
+    <div class="cart-empty" id="cart-empty">
+      <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+      </svg>
+      <p>سبد خرید شما خالی است</p>
+    </div>
+    <ul class="cart-items" id="cart-items"></ul>
+  </div>
+
+  <div class="cart-footer" id="cart-footer">
+    <div class="cart-total">
+      <span>جمع کل</span>
+      <span id="cart-total-price">۰ تومان</span>
+    </div>
+    <button class="btn btn-primary btn-block" id="checkout-open-btn"><i class="fa-solid fa-clipboard-check"></i> ثبت سفارش</button>
+  </div>
+</aside>
+
+
+<!-- ============ مودال ورود سریع (OTP) ============ -->
+<div class="modal-overlay" id="otp-overlay">
+  <div class="modal glass glass-strong" role="dialog" aria-modal="true" aria-labelledby="otp-title">
+    <button class="icon-btn modal-close" id="otp-close-btn" aria-label="بستن">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+    </button>
+
+    <div id="otp-phone-view">
+      <h2 id="otp-title" class="modal-title">ورود سریع</h2>
+      <p class="modal-subtitle">شماره موبایلت رو وارد کن تا کد تایید براش پیامک بشه</p>
+      <form id="otp-phone-form" novalidate>
+        <div class="form-group">
+          <label for="otp-phone-input">شماره موبایل</label>
+          <input type="tel" id="otp-phone-input" placeholder="09xxxxxxxxx" autocomplete="tel" required>
+          <span class="form-error" id="otp-phone-error"></span>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-paper-plane"></i> ارسال کد تایید</button>
+      </form>
+    </div>
+
+    <div id="otp-code-view" hidden>
+      <h2 class="modal-title">کد تایید رو وارد کن</h2>
+      <p class="modal-subtitle" id="otp-code-subtitle"></p>
+      <form id="otp-code-form" novalidate>
+        <div class="form-group">
+          <label for="otp-code-input">کد ۴ رقمی</label>
+          <input type="text" inputmode="numeric" id="otp-code-input" maxlength="4" autocomplete="one-time-code" required>
+          <span class="form-error" id="otp-code-error"></span>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-circle-check"></i> تایید و ورود</button>
+        <button type="button" class="btn btn-ghost btn-block" id="otp-change-phone-btn">تغییر شماره موبایل</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Toast ============ -->
+<div class="toast" id="toast"></div>
+
+<script src="/script.js"></script>
+</body>
+</html>

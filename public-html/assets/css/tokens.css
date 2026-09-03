@@ -1,0 +1,215 @@
+/* =========================================================
+   Storefront — Design Tokens (Liquid Glass system)
+   فونت self-hosted + توکن‌های رنگی/سایه/شعاع + توکن‌های شیشه‌ای
+   این فایل باید همیشه اولین فایل CSS لود شده باشد.
+   ========================================================= */
+
+/* ---------- فونت فارسی شبنم (self-hosted) ---------- */
+@font-face {
+  font-family: 'Shabnam';
+  src: url('../fonts/Shabnam-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Shabnam';
+  src: url('../fonts/Shabnam.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Shabnam';
+  src: url('../fonts/Shabnam-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Shabnam';
+  src: url('../fonts/Shabnam-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+}
+
+/* ---------- توکن‌های رنگی (تم روشن پیش‌فرض — پریست «بنفش استورفرانت»، هماهنگ با لوگو) ---------- */
+:root {
+  --color-primary: #7c4dff;
+  --color-primary-dark: #5e35d6;
+  --color-primary-light: #c9b3ff;
+  --color-primary-rgb: 124, 77, 255;
+
+  --color-accent: #ff5fa8;
+  --color-accent-dark: #e8397f;
+  --color-accent-rgb: 255, 95, 168;
+  --color-gold: #ffb84d;
+
+  --color-black: #1f1a33;
+  --color-bg: #faf8ff;
+  --color-bg-alt: #f0eaff;
+  --color-surface: #ffffff;
+  --color-surface-rgb: 255, 255, 255;
+  --color-text: #1f1a33;
+  --color-text-muted: #7c74a0;
+  --color-border: #e4d9ff;
+
+  --color-success: #2e9e5b;
+  --color-whatsapp: #25d366;
+  --color-telegram: #229ed9;
+
+  --shadow-sm: 0 1px 3px rgba(var(--color-primary-rgb), 0.05);
+  --shadow-md: 0 2px 10px rgba(var(--color-primary-rgb), 0.08);
+  --shadow-lg: 0 6px 20px rgba(var(--color-primary-rgb), 0.1);
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+
+  --font-fa: 'Shabnam', Tahoma, 'IRANSans', sans-serif;
+  --header-h: 50px;
+
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ---------- توکن‌های شیشه‌ای (Liquid Glass) — تم روشن ----------
+     افکت شیشه‌ای واقعی (نیمه‌شفاف + بلور محسوس)؛ روی دستگاه‌های ضعیف‌تر یا
+     prefers-reduced-motion با یک fallback سبک‌تر جایگزین می‌شه (پایین همین فایل). */
+  --glass-bg: rgba(var(--color-surface-rgb), 0.72);
+  --glass-bg-strong: rgba(var(--color-surface-rgb), 0.86);
+  --glass-border: rgba(var(--color-primary-rgb), 0.14);
+  --glass-highlight: rgba(255, 255, 255, 0.55);
+  --glass-blur: 16px;
+  --glass-blur-sm: 8px;
+  --glass-shadow: var(--shadow-md);
+}
+
+[data-theme="dark"] {
+  --color-primary: #b39dff;
+  --color-primary-dark: #9478f0;
+  --color-primary-light: #e0d4ff;
+  --color-primary-rgb: 179, 157, 255;
+
+  --color-accent: #ff8fc0;
+  --color-accent-dark: #ff5fa8;
+  --color-accent-rgb: 255, 143, 192;
+  --color-gold: #ffc670;
+
+  --color-black: #100a1c;
+  --color-bg: #171226;
+  --color-bg-alt: #1e1830;
+  --color-surface: #2f2748;
+  --color-surface-rgb: 47, 39, 72;
+  --color-text: #f3efff;
+  --color-text-muted: #b3a8d6;
+  --color-border: #423a63;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 2px 10px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 6px 20px rgba(0, 0, 0, 0.28);
+
+  /* ---------- توکن‌های شیشه‌ای — تم تیره ---------- */
+  --glass-bg: rgba(var(--color-surface-rgb), 0.68);
+  --glass-bg-strong: rgba(var(--color-surface-rgb), 0.84);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-highlight: rgba(255, 255, 255, 0.08);
+  --glass-shadow: var(--shadow-lg);
+}
+
+/* ---------- fallback سبک‌تر برای عملکرد بهتر روی دستگاه‌های ضعیف/کم‌توان -----------
+   blur سنگین روی CPU/GPU ضعیف باعث افت فریم می‌شه؛ prefers-reduced-motion رو به‌عنوان
+   نزدیک‌ترین سیگنال استاندارد «دستگاه/تنظیمات کم‌توان» در نظر می‌گیریم. */
+@media (prefers-reduced-motion: reduce) {
+  :root, [data-theme="dark"] {
+    --glass-blur: 4px;
+    --glass-blur-sm: 2px;
+    --glass-bg: rgba(var(--color-surface-rgb), 0.94);
+    --glass-bg-strong: rgba(var(--color-surface-rgb), 0.98);
+  }
+}
+
+/* =========================================================
+   پریست‌های رنگی جایگزین — از پنل مدیریت (بخش تنظیمات ظاهری) قابل‌انتخابن.
+   با data-color-preset روی <html> اعمال می‌شن؛ نبود این attribute یعنی
+   همون پریست پیش‌فرض «بنفش استورفرانت» بالا فعاله.
+   ========================================================= */
+
+/* پریست «صورتی کلاسیک» — پالت قبلی سایت */
+[data-color-preset="rose"] {
+  --color-primary: #b6339e;
+  --color-primary-dark: #8a2b7a;
+  --color-primary-light: #f2a6dd;
+  --color-primary-rgb: 182, 51, 158;
+  --color-accent: #ff6fa5;
+  --color-accent-dark: #e8467f;
+  --color-accent-rgb: 255, 111, 165;
+  --color-gold: #ffb84d;
+  --color-bg: #fff8fb;
+  --color-bg-alt: #fbe9f4;
+  --color-border: #f4d6ea;
+}
+[data-theme="dark"][data-color-preset="rose"] {
+  --color-primary: #e685d9;
+  --color-primary-dark: #c765c0;
+  --color-primary-light: #ffc2ef;
+  --color-primary-rgb: 230, 133, 217;
+  --color-accent: #ff8fc0;
+  --color-accent-dark: #ff6fa5;
+  --color-accent-rgb: 255, 143, 192;
+  --color-gold: #ffc670;
+  --color-bg: #1a0f1d;
+  --color-bg-alt: #201223;
+  --color-border: #4d2f57;
+}
+
+/* پریست «زمردی» */
+[data-color-preset="emerald"] {
+  --color-primary: #12946b;
+  --color-primary-dark: #0d6e4f;
+  --color-primary-light: #9ee6c9;
+  --color-primary-rgb: 18, 148, 107;
+  --color-accent: #ff8a65;
+  --color-accent-dark: #e86a45;
+  --color-accent-rgb: 255, 138, 101;
+  --color-gold: #ffcc4d;
+  --color-bg: #f5fdf9;
+  --color-bg-alt: #e6f7ee;
+  --color-border: #cdeddd;
+}
+[data-theme="dark"][data-color-preset="emerald"] {
+  --color-primary: #4ade9c;
+  --color-primary-dark: #2fbd7e;
+  --color-primary-light: #b8f5da;
+  --color-primary-rgb: 74, 222, 156;
+  --color-accent: #ffab91;
+  --color-accent-dark: #ff8a65;
+  --color-accent-rgb: 255, 171, 145;
+  --color-gold: #ffd873;
+  --color-bg: #0e1c17;
+  --color-bg-alt: #12241d;
+  --color-border: #274539;
+}
+
+/* پریست «غروب آفتاب» — گرم و پرانرژی */
+[data-color-preset="sunset"] {
+  --color-primary: #ff7a45;
+  --color-primary-dark: #e35a26;
+  --color-primary-light: #ffc9a8;
+  --color-primary-rgb: 255, 122, 69;
+  --color-accent: #ff4f8b;
+  --color-accent-dark: #e8306e;
+  --color-accent-rgb: 255, 79, 139;
+  --color-gold: #ffd166;
+  --color-bg: #fffaf6;
+  --color-bg-alt: #ffeee2;
+  --color-border: #ffdcc4;
+}
+[data-theme="dark"][data-color-preset="sunset"] {
+  --color-primary: #ffa26b;
+  --color-primary-dark: #ff8447;
+  --color-primary-light: #ffd9bd;
+  --color-primary-rgb: 255, 162, 107;
+  --color-accent: #ff7aa8;
+  --color-accent-dark: #ff4f8b;
+  --color-accent-rgb: 255, 122, 168;
+  --color-gold: #ffe08a;
+  --color-bg: #1e140f;
+  --color-bg-alt: #261a13;
+  --color-border: #4a2f21;
+}

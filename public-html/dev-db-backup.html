@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بکاپ دیتابیس | Storefront</title>
+<meta name="robots" content="noindex, nofollow">
+
+<link rel="icon" type="image/svg+xml" href="/assets/favicon/favicon.svg">
+<meta name="theme-color" content="#7c4dff">
+
+<link rel="stylesheet" href="/assets/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+
+<style>
+  .db-backup-page { min-height: 100vh; padding: 20px 14px 60px; max-width: 720px; margin: 0 auto; }
+  .db-backup-header { display: flex; align-items: center; gap: 10px; padding: 6px 2px 18px; }
+  .db-backup-header i { color: var(--color-primary); font-size: 18px; }
+  .db-backup-header strong { font-size: 14px; }
+  .db-backup-card { padding: 16px; border-radius: var(--radius-lg); margin-bottom: 16px; }
+  .db-backup-login-wrap { min-height: 80vh; display: flex; align-items: center; justify-content: center; }
+  .db-backup-login-card { max-width: 320px; width: 100%; padding: 18px 15px; border-radius: var(--radius-lg); }
+  .db-backup-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+  .db-backup-actions .btn { flex: 1; min-width: 140px; }
+  .db-backup-hint { font-size: 11px; color: var(--color-text-muted); margin-top: 8px; line-height: 1.9; }
+  .db-backup-count { font-size: 11px; color: var(--color-text-muted); margin-bottom: 10px; }
+  .db-backup-list { display: flex; flex-direction: column; gap: 8px; }
+  .db-backup-row {
+    display: flex; align-items: center; gap: 10px; padding: 9px 10px;
+    border: 1px solid var(--color-border); border-radius: var(--radius-md);
+    background: var(--color-surface); font-size: 12px;
+  }
+  .db-backup-row-info { flex: 1; min-width: 0; }
+  .db-backup-row-name { font-weight: 600; word-break: break-all; }
+  .db-backup-row-meta { color: var(--color-text-muted); font-size: 10.5px; margin-top: 2px; }
+  .db-backup-row-actions { display: flex; gap: 4px; flex-shrink: 0; }
+  .db-backup-row-actions .icon-btn { width: 30px; height: 30px; }
+  .db-backup-empty { text-align: center; color: var(--color-text-muted); font-size: 12px; padding: 20px 0; }
+  .db-backup-status { font-size: 11.5px; margin-top: 10px; min-height: 16px; }
+  .db-backup-status.error { color: #e14f4f; }
+  .db-backup-status.success { color: var(--color-success); }
+  .db-backup-danger-zone { border: 1px dashed #e14f4f; }
+  .db-backup-danger-zone h3 { font-size: 12.5px; color: #c0374a; margin-bottom: 8px; }
+  #db-backup-restore-input { display: none; }
+</style>
+</head>
+<body>
+
+<!-- ---------- گیت ورود با توکن (sessionStorage، بدون سشن سمت سرور) ---------- -->
+<div class="db-backup-login-wrap" id="db-backup-login-wrap">
+  <div class="db-backup-login-card glass glass-strong">
+    <div class="admin-brand" style="justify-content:center; padding-bottom:18px;">
+      <i class="fa-solid fa-database" style="color:var(--color-primary); font-size:22px;"></i>
+      <strong>بکاپ دیتابیس</strong>
+    </div>
+    <form id="db-backup-login-form" novalidate>
+      <div class="form-group">
+        <label for="db-backup-token-input">توکن دسترسی</label>
+        <input type="password" id="db-backup-token-input" autocomplete="off" required placeholder="DB_BACKUP_TOKEN">
+        <span class="form-error" id="db-backup-login-error"></span>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-right-to-bracket"></i> ورود</button>
+    </form>
+  </div>
+</div>
+
+<!-- ---------- صفحه‌ی اصلی (بعد از تایید توکن) ---------- -->
+<div class="db-backup-page" id="db-backup-page" hidden>
+  <div class="db-backup-header">
+    <i class="fa-solid fa-database"></i>
+    <strong>بکاپ‌گیری و ریستور دیتابیس</strong>
+  </div>
+
+  <div class="db-backup-card glass">
+    <div class="db-backup-actions">
+      <button type="button" class="btn btn-primary" id="db-backup-create-btn"><i class="fa-solid fa-download"></i> گرفتن بکاپ جدید و دانلود</button>
+      <button type="button" class="btn btn-ghost" style="border:1px solid var(--color-border);" id="db-backup-restore-btn"><i class="fa-solid fa-upload"></i> آپلود و ریستور کامل</button>
+      <input type="file" id="db-backup-restore-input" accept=".zip">
+    </div>
+    <p class="db-backup-hint">
+      «گرفتن بکاپ» یک فول بکاپ از کل دیتابیس (تمام کالکشن‌ها) به‌صورت فایل zip می‌سازد و همان لحظه دانلود می‌شود؛
+      نسخه‌اش هم در لیست پایین برای دانلود بعدی می‌ماند. سیستم هر هفته هم به‌صورت خودکار یک بکاپ می‌گیرد و وقتی
+      تعداد بکاپ‌ها به ۵۰ برسد، قدیمی‌ترین‌ها خودکار حذف می‌شوند.<br>
+      «ریستور» یک فایل بکاپ zip را می‌گیرد و <strong>کل محتوای فعلی دیتابیس را کامل جایگزین می‌کند</strong> —
+      این عملیات برگشت‌ناپذیر است.
+    </p>
+    <div class="db-backup-status" id="db-backup-status"></div>
+  </div>
+
+  <div class="db-backup-card glass">
+    <div class="db-backup-count" id="db-backup-count">در حال بارگذاری فهرست بکاپ‌ها...</div>
+    <div class="db-backup-list" id="db-backup-list"></div>
+  </div>
+</div>
+
+<script src="/assets/js/dev-db-backup.js"></script>
+</body>
+</html>
